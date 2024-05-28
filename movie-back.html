@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="꿈과 희망이 넘치는 사람들의 문화공간 메가박스">
+    <meta name="keywords" content="메가박스,megabox,영화,극장,movie,티켓,ticket,박스오픽스,한국영화,외화">
+    <meta property="og:title" content="MEET PLAY SHARE, 메가박스">
+    <meta property="og:image" content="./images/img-og.jpg">
+    <meta property="og:description" content="꿈과 희망이 넘치는 사람들의 문화공간 메가박스">
+    <meta property="og:url" content="https://pam7461.github.io/megabox/">
+
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <!-- 공통스타일 -->
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- 영화 전용스타일 -->
+    <link rel="stylesheet" href="./css/movie.css">
+
+    <script src="./js/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="./js/megabox.js"></script>
+    
+    <title>MEET PLAY SHARE, 메가박스</title> 
+    <style>
+        .sec{
+            padding-top:100px;
+        }
+        .movie-nav{
+            margin-bottom:40px;
+        }
+        .movie-nav ul{
+            display:grid;
+            grid-template-columns:repeat(5,20%);
+            font-size:1.2em;
+            text-align:center;
+        }
+        .movie-nav li{
+            position:relative;
+            border:1px solid #ccc;
+            border-bottom-color:#503396;
+            padding:1em 0;
+            cursor:pointer;
+        }
+        .movie-nav li.active{
+            border-color:#503396;
+            border-bottom-color:transparent;
+            font-weight:600;
+            color:#503396;
+        }
+        .movie-nav li::after{
+            content:'';
+            display:none;
+            position:absolute;
+            left:0;
+            right:0;
+            bottom:0;
+            height:2px;
+            background:#503396;
+        }
+
+
+        .art{
+            display:none;
+        }
+        .art.active{
+            display:block;
+        }
+        .art ul{
+            display:grid;
+            grid-template-columns:repeat(4, 1fr);
+            gap:40px;
+        }
+
+        /* 포스터스타일 */
+        .poster-wrap{
+            display:grid;
+            grid-template-columns:1fr 2fr;
+            column-gap:6px;
+            row-gap:12px;
+        }
+        .poster-box{
+            grid-area:1/1/2/-1;
+            position:relative;
+        }
+        .movie-num,.movie-content{
+            position:absolute;
+            left:0;
+            right:0;
+            top:0;
+            bottom:0;
+            padding:32px 16px;
+        }
+        .movie-num{
+            font-size:2em;
+            font-style:italic;
+            text-shadow:2px 2px 2px #000;
+        }
+        .movie-content{
+            background:rgba(0,0,0,0.5);
+            display:none;
+            grid-template-rows:8fr 1fr;
+            row-gap:20px;
+        }
+        .poster-box:hover .movie-content{
+            display:grid;
+        }
+        .movie-content p{
+            border-bottom:1px solid #ccc;
+            line-height:1.6;
+            overflow:hidden;
+        }
+        .movie-content span{
+            font-size:1.2em;
+            text-align:center;
+        }
+        .movie-content span span{
+            font-size:1.4em;
+            color:#77f2ff;
+        }
+        .hit{
+            position:relative;
+            grid-area:2/1/3/2;
+            border:1px solid #fff;
+            border-radius:6px;
+            padding:0.6em;
+            text-align:right;
+        }
+        .hit:before{
+            content:'';
+            display:block;
+            position:absolute;
+            left:0.6em;
+            top:50%;
+            transform:translateY(-50%);
+            width:18.5px;
+            height:16px;
+            background:url(./images/ico-heart.png) no-repeat left center;
+            background-size:cover;
+        }
+        .ticketing{
+            grid-area:2/2/3/-1;            
+            border-radius:6px;
+            padding:0.6em;
+            background:#77f2ff;
+            color:#000;
+            text-align:center;
+        }
+
+        
+
+
+
+        @media (max-width:1099px){
+            .sec{
+                padding-top:175px;
+            }   
+            .movie-nav span{
+                display:none;
+            }
+        }
+        @media (max-width:960px){
+            .art ul{
+                grid-template-columns:repeat(3,1fr);
+                gap:32px;
+            }
+        }
+        @media (max-width:767px){
+            .movie-nav ul{
+                grid-template-columns:repeat(5,auto);
+                justify-content:start;
+                gap:10px;
+                text-align:left;
+            }
+            .movie-nav li{
+                border:none;                
+                padding:0;
+                padding-bottom:10px;
+            }
+            .movie-nav li.active::after{
+                display:block;
+            }
+            .art ul{
+                grid-template-columns:repeat(2,1fr);
+                gap:32px;
+            }
+        }
+    </style>   
+</head>
+<body>
+    <div class="skip-menu">
+        <a href="#header">본문 바로가기</a><a href="#footer">푸터 바로가기</a>
+    </div>
+    <div class="ad ad01">
+        <div class="container">
+            <div class="img-box">
+                <a href="#"><img src="./images/img-ad01.png" alt="현대해상 바로가기"></a>
+            </div>
+        </div>
+        <div class="btn-close-ad">&times;</div>
+    </div>
+    <section class="wrap">
+        <header id="header" class="header">
+            <div class="container">
+                <h1><a href="./index.html">매가박스</a></h1>
+                <div class="q-nav q-nav01">
+                    <ul>
+                        <li><a href="./membership.html#vip">VIP LOUNGE</a></li>
+                        <li><a href="./membership.html#membership">멤버십</a></li>
+                        <li><a href="./support.html">고객센터</a></li>
+                    </ul>
+                </div>
+                <div class="q-nav q-nav02">
+                    <ul>
+                        <li><a href="#" class="btn-login">로그인</a></li>
+                        <li><a href="./join.html">회원가입</a></li>
+                        <li><a href="./booking.html">빠른예매</a></li>
+                    </ul>
+                </div>
+                <div class="q-nav q-nav03">
+                    <ul>
+                        <li>
+                            <a href="#" title="사이트맵" class="btn-header">사이트맵</a>
+                            <div class="dis-none site-map">
+                                <div class="container">
+                                    <h2>SITEMAP</h2>
+                                    <ul class="site-map-lest">
+                                        <li>
+                                            <h3>영화</h3>
+                                            <ul>
+                                                <li><a href="#">전체영화</a></li>
+                                                <li><a href="#">큐레이션</a></li>
+                                                <li><a href="#">영화제</a></li>
+                                                <li><a href="#">무비포스트</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>예매</h3>
+                                            <ul>
+                                                <li><a href="#">빠른예매</a></li>
+                                                <li><a href="#">상영시간표</a></li>
+                                                <li><a href="#">더 부티크 프라이빗 예매</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>극장</h3>
+                                            <ul>
+                                                <li><a href="#">전체극장</a></li>
+                                                <li><a href="#">특별관</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>이벤트</h3>
+                                            <ul>
+                                                <li><a href="#">진행중 이벤트</a></li>
+                                                <li><a href="#">지난 이벤트</a></li>
+                                                <li><a href="#">당첨자발표</a></li>                                                
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>스토어</h3>
+                                            <ul>
+                                                <li><a href="#">새로운 상품</a></li>
+                                                <li><a href="#">메가티켓</a></li>
+                                                <li><a href="#">팝콘/음료/굿즈</a></li>
+                                                <li><a href="#">포인트몰</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>나의 메가박스</h3>
+                                            <ul>
+                                                <li><a href="#">나의 메가박스 홈</a></li>
+                                                <li><a href="#">예매/구매내역</a></li>
+                                                <li><a href="#">영화관람권</a></li>
+                                                <li><a href="#">스토어교환권</a></li>
+                                                <li><a href="#">할인/제휴쿠폰</a></li>
+                                                <li><a href="#">멤버십포인트</a></li>
+                                                <li><a href="#">나의 무비스토리</a></li>
+                                                <li><a href="#">나의 이벤트 응모내역</a></li>
+                                                <li><a href="#">나의 문의내역</a></li>
+                                                <li><a href="#">자주쓰는 할인카드</a></li>
+                                                <li><a href="#">회원정보</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>혜택</h3>
+                                            <ul>
+                                                <li><a href="#">멤버십 안내</a></li>
+                                                <li><a href="#">VIP LOUNGE</a></li>
+                                                <li><a href="#">제휴/할인</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>고객센터</h3>
+                                            <ul>
+                                                <li><a href="#">고객센터 홈</a></li>
+                                                <li><a href="#">자주묻는질문</a></li>
+                                                <li><a href="#">공지사항</a></li>
+                                                <li><a href="#">1:1문의</a></li>
+                                                <li><a href="#">단체/대관문의</a></li>
+                                                <li><a href="#">분실물문의</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>회사소개</h3>
+                                            <ul>
+                                                <li><a href="#">메가박스소개</a></li>
+                                                <li><a href="#">사회공헌</a></li>
+                                                <li><a href="#">홍보자료</a></li>
+                                                <li><a href="#">제휴/부대사업문의</a></li>
+                                                <li><a href="#">온라인제보센터</a></li>
+                                                <li><a href="#">IR자료</a></li>
+                                                <li><a href="#">인재채용</a></li>
+                                                <li><a href="#">윤리경영</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <h3>이용정책</h3>
+                                            <ul>
+                                                <li><a href="#">이용약관</a></li>
+                                                <li><a href="#">위치기반서비스 이용약관</a></li>
+                                                <li><a href="#">개인정보처리방침</a></li>
+                                                <li><a href="#">스크린수배정에관한기준</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#" title="영화검색" class="btn-header">검색</a>
+                            <div class="dis-none search">
+                                <div class="container">
+                                    <h2>검색</h2>
+                                    <div class="tab">
+                                        <a href="#" class="active">예매율순</a>
+                                        <a href="#">메가박스 관객순</a>
+                                    </div>
+                                    <div class="search-movie">
+                                        <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                        <ol>
+                                            <li><a href="#">1. 범죄도시4</a></li>
+                                            <li><a href="#">2. 듄</a></li>
+                                            <li><a href="#">3. 레옹</a></li>
+                                            <li><a href="#">4. 쿵푸팬더4</a></li>
+                                            <li><a href="#">5. 듄:파트2</a></li>
+                                        </ol>
+                                        <form action="#">
+                                            <input type="text" name="movie-name" id="movie-name" placeholder="영화를 검색하세요">
+                                            <input type="submit" value="검색">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>                        
+                    </ul>
+                </div>
+                <div class="q-nav q-nav04">
+                    <ul>
+                        <li><a href="./timetable.html" title="상영시간표">상영시간표</a></li>
+                        <li>
+                            <a href="#" title="나의 메가박스" class="btn-header">나의 메가박스</a>
+                            <div class="dis-none my-megabox">
+                                <h2>영화를 사랑하는 당신을 위한 꼭 맞는 혜택까지 확인해 보세요!</h2>
+                                <a href="#" class="btn-login">로그인</a><a href="./join.html">아직 회원이 아니신가요?</a>                                
+                            </div>
+                        </li>                        
+                    </ul>
+                </div>                
+                <nav class="dt-nav">
+                    <ul class="main-nav">
+                        <li>
+                            <a href="./movie.html">영화</a>
+                            <ul class="sub-nav">
+                                <li><a href="./movie.html">전체영화</a></li>
+                                <li><a href="#">큐레이션</a></li>
+                                <li><a href="#">무비포스트</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="./booking.html">예매</a>
+                            <ul class="sub-nav">
+                                <li><a href="./booking.html">빠른예매</a></li>
+                                <li><a href="#">상영시간표</a></li>
+                                <li><a href="#">더 부티크 프라이빗 예매</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="./cinema.html">극장</a>
+                            <ul class="sub-nav">
+                                <li><a href="./cinema.html">전체극장</a></li>
+                                <li><a href="#">특별관</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul class="main-nav">
+                        <li>
+                            <a href="./event.html">이벤트</a>
+                            <ul class="sub-nav">
+                                <li><a href="./event.html">진행중 이벤트</a></li>
+                                <li><a href="#">이난 이벤트</a></li>
+                                <li><a href="#">당첨자발표</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="./store.html">스토어</a></li>
+                        <li>
+                            <a href="./benefit.html">혜택</a>
+                            <ul class="sub-nav">
+                                <li><a href="./benefit.html">메가박스 멤버십</a></li>
+                                <li><a href="#">제휴/할인</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <nav class="m-nav">
+                    <div class="m-nav-head">
+                        <div class="clearfix m-nav-head-top">
+                            <div class="float-left">
+                                <a href="./index.html">로그인 해주세요 :)</a>
+                            </div>
+                            <div class="float-right">
+                                <span id="btn-set">설정</span>
+                                <span id="btn-m-nav-close">닫기</span>
+                            </div>
+                        </div>
+                        <div class="clearfix m-nav-head-bottom">
+                            <div class="float-left">
+                                <a href="#" id="btn-m-login">로그인</a>
+                                <a href="./join.html">회원가입</a>
+                            </div>
+                            <div class="float-right">
+                                <a href="#">비회원 예매확인</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-nav-body">
+                        <div class="clearfix">
+                            <div class="float-left">
+                                <h2>QUICK MENU</h2>
+                            </div>
+                            <div class="float-right">
+                                <p id="btn-all">전체메뉴 보기</p>
+                            </div>
+                        </div>
+                        <ul class="m-nav-list01">
+                            <li>
+                                <a href="#">
+                                    <div class="img-box"><img src="./images/ico-rnb-moive.png" alt="영화별 예매"></div>
+                                    <p>영화별 예매</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="img-box"><img src="./images/ico-rnb-theater.png" alt="극장별 예매"></div>
+                                    <p>극장별 예매</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="img-box"><img src="./images/ico-rnb-special.png" alt="특별관 예매"></div>
+                                    <p>특별관 예매</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="img-box"><img src="./images/ico-rnb-private.png" alt="더 부티크 프라이빗"></div>
+                                    <p>더 부티크<br>프라이빗</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="img-box"><img src="./images/ico-rnb-event.png" alt="이벤트"></div>
+                                    <p>이벤트</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="img-box"><img src="./images/ico-rnb-sale.png" alt="제휴/할인"></div>
+                                    <p>제휴/할인</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="img-box"><img src="./images/ico-rnb-channeltalk.png" alt="상담톡"></div>
+                                    <p>상담톡</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <div class="img-box"><img src="./images/ico-rnb-goods.png" alt="메가굿즈샵"></div>
+                                    <p>메가굿즈샵</p>
+                                </a>
+                            </li>
+                        </ul>
+                        <ul class="m-nav-list02">
+                            <li><a href="./movie.html">전체영화</a></li>
+                            <li><a href="#">나의 메가박스</a></li>
+                            <li><a href="#">스토어</a></li>
+                            <li><a href="#">극장안내</a></li>
+                            <li><a href="#">무비피드</a></li>
+                            <li><a href="#">무비포스트</a></li>
+                            <li><a href="./membership.html#membership">스페셜 멤버십</a></li>
+                            <li><a href="#">멤버십 안내</a></li>
+                            <li><a href="./membership.html#vip">VIP 라운지</a></li>
+                        </ul>
+                        <ul class="m-nav-sns">
+                            <li><a href="#"><img src="./images/ico-facebookN.png" alt="facebook login"></a></li>
+                            <li><a href="#"><img src="./images/ico-instagramN.png" alt="instagram login"></a></li>
+                            <li><a href="#"><img src="./images/ico-youtubeN.png" alt="youtube login"></a></li>
+                        </ul>
+                    </div>
+                    <div class="m-nav-ad">
+                        <div class="m-container">
+                            <a href="#"><img src="./images/img-ad03.png" alt="현대해상 바로가기"></a>
+                        </div>
+                    </div>
+                </nav>
+                <button class="btn-nav">내버버튼</button>
+                <div class="logon-form" id="login-form">
+                    <div class="container">
+                        <div class="login-head">
+                            <h2>로그인</h2>
+                            <div class="btn-close" id="btn-login-close">
+                                <span></span><span></span>
+                            </div>
+                        </div>
+                        <div class="login-body">
+                            <form action="#">
+                                <input type="text" name="uid" id="uid" placeholder="아이디">
+                                <input type="password" name="upass" id="upass" placeholder="비밀번호">
+                                <label><input type="checkbox" name="save-id" id="save-id"> 아이디 저장</label>
+                                <input type="submit" value="로그인">
+                                <ul>
+                                    <li><a href="#">ID/PW 찾기</a></li>
+                                    <li><a href="#">회원가입</a></li>
+                                    <li><a href="#">비회원 예매확인</a></li>
+                                </ul>
+                                <ul class="sns-login">
+                                    <li><a href="#"><img src="./images/ico-facebookN.png" alt="페이스북 로그인" title="페이스북 로그인"></a></li>
+                                    <li><a href="#"><img src="./images/ico-twitterN.png"  alt="트위터 로그인" title="트위터 로그인"></a></li>
+                                    <li><a href="#"><img src="./images/ico-instagramN.png" alt="인스타그램 로그인" title="인스타그램 로그인"></a></li>
+                                </ul>
+                            </form>
+                            <div class="ad">
+                                <div class="img-box">
+                                    <a href="#"><img src="./images/img-ad02.png" alt="현대해상 바로가기"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <aside class="aside location">
+                <div class="container">
+                    <ul>
+                        <li><a href="./index.html" class="location-home">홈</a></li>
+                        <li><a href="#">영화</a></li>
+                        <li><a href="#">전체영화</a></li>                        
+                    </ul>
+                    <ul>
+                        <li><a href="#">공유하기&nbsp;</a></li>
+                        <li><a href="#" class="location-share">공유하기 아이콘</a></li>
+                    </ul>
+                </div>
+            </aside>
+        </header>
+        <section class="sec movie">
+            <div class="container">
+                <h2>전체영화</h2>
+                <div class="movie-nav">
+                    <ul>
+                        <li class="active" data-role="0">박스오피스</li>
+                        <li data-role="1">상영예정<span>작</span></li>
+                        <li data-role="2">특별상영<span>작</span></li>
+                        <li data-role="3">필<span>름</span>소<span>사이어티</span></li>
+                        <li data-role="4">클<span>레식</span>소<span>사이어티</span></li>
+                    </ul>
+                </div>
+                <article class="art art-movie active">
+                    <ul>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>                        
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                    </ul>
+                </article>                
+                <article class="art art-com">
+                    <ul>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>                        
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+                <article class="art art-special">
+                    <ul>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>                        
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>                        
+                    </ul>
+                </article>
+                <article class="art art-film">
+                    <ul>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>                        
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+                <article class="art art-clasic">
+                    <ul>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>                        
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="poster-wrap">
+                                <div class="poster-box">
+                                    <div class="img-box"><img src="./images/img-poster01.jpg" alt="범죄도시4"></div>
+                                    <div class="movie-num">1</div>
+                                    <div class="movie-content">
+                                        <p>
+                                            신종 마약 사건 3년 뒤,<br>
+                                            괴물형사 ‘마석도’(마동석)와 서울 광수대는 배달앱을 이용한 마약 판매 사건을 수사하던 중
+                                            수배 중인 앱 개발자가 필리핀에서 사망한 사건이
+                                        </p>
+                                        <span>관람평 : <span>0</span></span>
+                                    </div>
+                                </div>
+                                <div class="hit">1.4k</div>
+                                <div class="ticketing">예매</div>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-wrap">
+                    <ul class="footer-nav">
+                        <li><a href="#">회사소개</a></li>
+                        <li class="m-hidden"><a href="#">인재채용</a></li>
+                        <li class="m-hidden"><a href="#">사회공헌</a></li>
+                        <li class="m-hidden"><a href="#">제휴/광고/부대사업문의</a></li>
+                        <li><a href="#">이용약관</a></li>
+                        <li><a href="#">위치기반서비스 이용약관</a></li>
+                        <li><a href="#"><strong>개인정보처리방침</strong></a></li>
+                        <li><a href="#">윤리경영</a></li>
+                    </ul>
+                    <div class="cinema-search">극장찾기</div>
+                    <div class="footer-logo">푸터로고</div>
+                    <address>
+                        서울특별시 성동구 왕십리로 50, 6층 (성수동1가, 메가박스 스퀘어) ARS 1544-0070 대표이메일 m.dreamcenter@partner.megabox.co.kr <br>
+                        대표자명 홍정인 · 개인정보보호책임자 강병철 · 사업자등록번호 211-86-59478 · 통신판매업신고번호 2023-서울성동-0177 <br>
+                        COPYRIGHT © MegaboxJoongAng, Inc. All rights reserved
+                    </address>
+                    <ul class="sns-link">
+                        <li><a href="#"><img src="./images/ico-facebookN.png" alt="facebook"></a></li>
+                        <li><a href="#"><img src="./images/ico-instagramN.png" alt="instagram"></a></li>
+                        <li><a href="#"><img src="./images/ico-youtubeN.png" alt="youtube"></a></li>
+                    </ul>
+                </div>
+            </div>
+        </footer>
+    </section> 
+    <script>
+        // 무비 전환 이벤트
+        $('.movie-nav li').click(function(){
+            // let idx = $('.movie-nav li').index($(this));
+            let idx = Number($(this).attr('data-role'));
+            $('.movie-nav li,.art').removeClass('active');
+            $(this).addClass('active');
+            $('.art').eq(idx).addClass('active');
+        })
+
+        
+    </script>   
+</body>
+</html>
